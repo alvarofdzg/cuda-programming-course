@@ -3,7 +3,7 @@
 int main() {
     int num = 10;
     float fnum = 3.14;
-    void* vptr;
+    void* vptr; //pointer to a no type, so we can change its type
 
     vptr = &num;
     printf("Integer: %d\n", *(int*)vptr);  // Output: 10

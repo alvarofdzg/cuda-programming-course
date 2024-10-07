@@ -1,6 +1,6 @@
 // size_t = size type for memory allocation
 // size_t is an unsigned integer data type used to represent the size of objects in bytes. 
-// It is guaranteed to be big enough to contain the size of the biggest object the host system can handle.
+// It is guaranteed to be big enough to contain the size of the biggest object the host system can handle (normally int64).
 
 // in vscode, ctrl + right click or F12 to see the definition of a function or a type
 // nothing special about size_t, it's just a typedef for unsigned long long int

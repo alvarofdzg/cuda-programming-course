@@ -8,4 +8,8 @@ int main() {
     // to char
     char c = (char)i;
     printf("%c\n", c);  // Output: E (ASCII value of 69 -> https://www.asciitable.com/)
+
+    float* ptr = &f;
+    printf("%d\n", (int)*ptr); // Get the value from the address and then cast to int.
+
 }

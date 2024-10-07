@@ -1,7 +1,7 @@
 // exact same as 02.cpp
 #include <stdio.h>
 
-typedef struct {
+typedef struct { // Declaring our own datatype
     float x;
     float y;
 } Point;

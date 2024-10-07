@@ -1,0 +1,5 @@
+Webpages:
+- https://www.learncpp.com/
+- https://www.reddit.com/r/C_Programming/comments/16e7thg/what_are_some_good_blogs_on_programming_in_c_you/
+- https://cplusplus.com/
+- https://www.w3schools.com/cpp/default.asp
