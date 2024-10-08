@@ -1,4 +1,15 @@
 #include <stdio.h>
+#include <cuda_runtime.h>
+
+#define CUDA_CHECK(call)                                                      \
+    do {                                                                      \
+        cudaError_t err = call;                                               \
+        if (err != cudaSuccess) {                                             \
+            fprintf(stderr, "CUDA error in file '%s' in line %i : %s.\n",     \
+                    __FILE__, __LINE__, cudaGetErrorString(err));             \
+            exit(EXIT_FAILURE);                                               \
+        }                                                                     \
+    } while (0)
 
 __global__ void whoami(void) {
     int block_id =
@@ -17,6 +28,8 @@ __global__ void whoami(void) {
 
     int id = block_offset + thread_offset; // global person id in the entire apartment complex
 
+    printf("Hello\n");
+
     printf("%04d | Block(%d %d %d) = %3d | Thread(%d %d %d) = %3d\n",
         id,
         blockIdx.x, blockIdx.y, blockIdx.z, block_id,
@@ -25,8 +38,9 @@ __global__ void whoami(void) {
 }
 
 int main(int argc, char **argv) {
-    const int b_x = 2, b_y = 3, b_z = 4;
-    const int t_x = 4, t_y = 4, t_z = 4; // the max warp size is 32, so 
+    const int b_x = 2, b_y = 3, b_z = 4; // Grid dim (2x3x4)
+    const int t_x = 4, t_y = 4, t_z = 4;  // Block dim (4x4x4)
+    // the max warp size is 32, so 
     // we will get 2 warp of 32 threads per block
 
     int blocks_per_grid = b_x * b_y * b_z;
@@ -40,5 +54,7 @@ int main(int argc, char **argv) {
     dim3 threadsPerBlock(t_x, t_y, t_z); // 3d cube of shape 4*4*4 = 64
 
     whoami<<<blocksPerGrid, threadsPerBlock>>>();
-    cudaDeviceSynchronize();
+    // cudaDeviceSynchronize();
+    CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaDeviceSynchronize());
 }

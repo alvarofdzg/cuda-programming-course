@@ -47,7 +47,7 @@ CUDA program surface level runtime:
 
 # `nvcc` compiler
 - Host code
-    - modifed to run kernels
+    - modified to run kernels
     - compiled to x86 binary
 
 - Device code
@@ -68,10 +68,10 @@ CUDA program surface level runtime:
 4. Kernel executed as a Grid of Blocks of Threads
 
 ### 4 technical terms:
-- `gridDim` ⇒ number of blocks in the grid
-- `blockIdx` ⇒ index of the block in the grid
-- `blockDim` ⇒ number of threads in a block
-- `threadIdx` ⇒ index of the thread in the block
+- `gridDim` ⇒ number of blocks in the grid (x, y, z)
+- `blockIdx` ⇒ index of the block in the grid (x, y, z)
+- `blockDim` ⇒ number of threads in a block (x, y, z)
+- `threadIdx` ⇒ index of the thread in the block (x, y, z)
 
 (more on this in video lectures)
 
@@ -98,7 +98,7 @@ CUDA program surface level runtime:
 - during kernel execution, the threads within the blocks within the grid can access global memory (VRAM)
 - contain a bunch of blocks. best example is grids handle batch processing, where each block in the grid is a batch element
 
-> why not just use only threads instead of blocks and threads? add to this given our knowledge of how warps group and execute a batch of 32 threads in lockstep
+> why not just use only threads instead of blocks and threads? add to this given our knowledge of how warps group and execute a batch of 32 threads in lockstep.
 > Logically, this shared memory is partitioned among the blocks. This means that a thread can communicate with the other threads in its block via the shared memory chunk. 
 
 - CUDA parallelism is scalable because their aren’t sequential block run-time dependencies.What I mean here is that you may not run Block 0 & Block 1, then Block 2 & 3… It may be Block 3 & 0, then Block 6 & 1. This means each of these mini “jobs” are solving a subset of the problem independent of the others. Like one piece of the puzzle. As long as all the pieces are assembled in the right place at the end, it works!
