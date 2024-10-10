@@ -7,6 +7,8 @@ nvcc -o 00 00\ nvtx_matmul.cu -lnvToolsExt
 nsys profile --stats=true ./00
 ```
 
+nvtx is a custom profiler for cuda kernels!
+
 > for these two, you'd open `ncu` on linux and drag and drop the .nsys-rep file into the left sidebar.
 > the .sqlite file can be plugged directly into sqlite DBs for more customized analysis
 2. 

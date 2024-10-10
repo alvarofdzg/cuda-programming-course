@@ -4,7 +4,7 @@
 #include <cuda_runtime.h>
 
 #define N 10000000  // Vector size = 10 million
-#define BLOCK_SIZE 256
+#define BLOCK_SIZE 256 // Number of threads inside of a block
 
 // Example:
 // A = [1, 2, 3, 4, 5]
@@ -20,6 +20,7 @@ void vector_add_cpu(float *a, float *b, float *c, int n) {
 
 // CUDA kernel for vector addition
 __global__ void vector_add_gpu(float *a, float *b, float *c, int n) {
+    // the number of blocks * how many threads there are  + the number of thread we are at right now
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     if (i < n) {
         c[i] = a[i] + b[i];
@@ -67,13 +68,14 @@ int main() {
 
     // Define grid and block dimensions
     int num_blocks = (N + BLOCK_SIZE - 1) / BLOCK_SIZE;
-    // N = 1024, BLOCK_SIZE = 256, num_blocks = 4
-    // (N + BLOCK_SIZE - 1) / BLOCK_SIZE = ( (1025 + 256 - 1) / 256 ) = 1280 / 256 = 4 rounded 
+    // N = 1024, BLOCK_SIZE = 256 -> num_blocks = 4
+    // (N + BLOCK_SIZE - 1) / BLOCK_SIZE = ( (1025 + 256 - 1) / 256) = 1280 / 256 = 4 rounded 
 
     // Warm-up runs
     printf("Performing warm-up runs...\n");
     for (int i = 0; i < 3; i++) {
         vector_add_cpu(h_a, h_b, h_c_cpu, N);
+        // It will convert "num_blocks" into a dim3 with (num_blocks, 1, 1), same with BLOCK_SIZE
         vector_add_gpu<<<num_blocks, BLOCK_SIZE>>>(d_a, d_b, d_c, N);
         cudaDeviceSynchronize();
     }

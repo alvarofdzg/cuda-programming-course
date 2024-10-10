@@ -1,15 +1,6 @@
+# include <iostream>
 #include <stdio.h>
-#include <cuda_runtime.h>
-
-#define CUDA_CHECK(call)                                                      \
-    do {                                                                      \
-        cudaError_t err = call;                                               \
-        if (err != cudaSuccess) {                                             \
-            fprintf(stderr, "CUDA error in file '%s' in line %i : %s.\n",     \
-                    __FILE__, __LINE__, cudaGetErrorString(err));             \
-            exit(EXIT_FAILURE);                                               \
-        }                                                                     \
-    } while (0)
+using namespace std;
 
 __global__ void whoami(void) {
     int block_id =
@@ -27,8 +18,6 @@ __global__ void whoami(void) {
         threadIdx.z * blockDim.x * blockDim.y;
 
     int id = block_offset + thread_offset; // global person id in the entire apartment complex
-
-    printf("Hello\n");
 
     printf("%04d | Block(%d %d %d) = %3d | Thread(%d %d %d) = %3d\n",
         id,
@@ -53,8 +42,8 @@ int main(int argc, char **argv) {
     dim3 blocksPerGrid(b_x, b_y, b_z); // 3d cube of shape 2*3*4 = 24
     dim3 threadsPerBlock(t_x, t_y, t_z); // 3d cube of shape 4*4*4 = 64
 
+    // We need to send the number of blocks that we want in our grid (blocksPerGrid),
+    // and  the number of threads we want in each block (threadsPerBlock)
     whoami<<<blocksPerGrid, threadsPerBlock>>>();
-    // cudaDeviceSynchronize();
-    CUDA_CHECK(cudaGetLastError());
-    CUDA_CHECK(cudaDeviceSynchronize());
+    cudaDeviceSynchronize();
 }

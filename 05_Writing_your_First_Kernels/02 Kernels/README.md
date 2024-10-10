@@ -86,5 +86,5 @@ int blockDim = 32; // 32 threads per block
 ## Math intrinsics
 - device-only hardware instructions for fundamental math operations
 - https://docs.nvidia.com/cuda/cuda-math-api/index.html
-- you can use host designed operations like `log()` (host) instead of `logf()` (device) but they will run slower. these math essentials allow very math math operations on the device/GPU. you can pass in `-use_fast_math` to the nvcc compiler to convert to these device only ops at the cost of barely noticeable precision error.
+- you can use host designed operations like `log()` (host) instead of `logf()` (device) but they will run slower. these math essentials allow very math operations on the device/GPU. you can pass in `-use_fast_math` to the nvcc compiler to convert to these device only ops at the cost of barely noticeable precision error.
 - `--fmad=true` for fused multiply-add
